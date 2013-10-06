@@ -14,8 +14,8 @@ angular.module('myApp.directives', []).
         return {
             restrict: 'E',
             template: '<div>' +
-                '<div data-ng-repeat="regionlist in regions">' +
-                '<div data-ng-repeat="region in regionlist" data-wa-content="region"></div>' +
+                '<div data-ng-repeat="regionrow in regionProps.regions">' +
+                '<div data-ng-repeat="region in regionrow" data-wa-content="{{region}}">' +
                 '</div>' +
                 '</div>',
             controller: function ($scope) {
@@ -52,7 +52,7 @@ angular.module('myApp.directives', []).
 
                     if (linkFn) {
                         el = linkFn($scope);
-                        $element.innerHTML = '';
+                        $element.children().remove();
                         $element.append(el);
                     }
                 };

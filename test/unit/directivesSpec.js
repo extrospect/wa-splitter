@@ -46,8 +46,7 @@ describe('directives', function () {
                 });
 
                 describe('and a region is added', function () {
-                    // TODO: Get this 'addRegion' method working correctly
-                    xit('then it should render the result of compiling the supplied html', function () {
+                    it('then it should render the result of compiling the supplied html', function () {
                         var html = '<div>some html</div>',
                             compiledHtml;
 
