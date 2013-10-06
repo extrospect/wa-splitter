@@ -15,8 +15,10 @@ angular.module('myApp.directives', []).
             restrict: 'E',
             template: '<div>' +
                 '<div data-ng-repeat="regionrow in regionProps.regions">' +
-                '<div data-ng-repeat="region in regionrow" data-wa-content="{{region}}">' +
-                '</div>' +
+                    '<div data-ng-repeat="region in regionrow">' +
+                        '<div data-wa-content="{{region}}"></div>' +
+                        '<div data-ng-hide="$last" class="wa-splitter-handle"></div>' +
+                    '</div>' +
                 '</div>',
             controller: function ($scope) {
                 $scope.regionProps = {
@@ -24,9 +26,12 @@ angular.module('myApp.directives', []).
                 };
 
                 $scope.addRegion = function (html, rowIndex) {
+                    var regions = $scope.regionProps.regions || [];
+
                     rowIndex = rowIndex || 0;
-                    $scope.regionProps.regions[rowIndex] = $scope.regionProps.regions[rowIndex] || [];
-                    $scope.regionProps.regions[rowIndex].push(html);
+                    regions[rowIndex] = regions[rowIndex] || [];
+
+                    regions[rowIndex].push(html);
                 };
             }
         }
