@@ -19,6 +19,7 @@ angular.module('myApp.directives', []).
                         '<div data-wa-content="{{region}}"></div>' +
                         '<div data-ng-hide="$last" class="wa-splitter-handle"></div>' +
                     '</div>' +
+                '<div data-ng-hide="$last" class="wa-splitter-handle"></div>' +
                 '</div>',
             controller: function ($scope) {
                 $scope.regionProps = {

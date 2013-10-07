@@ -45,6 +45,23 @@ describe('directives', function () {
                     expect($scope.addRegion).toEqual(jasmine.any(Function));
                 });
 
+                function countDisplayedSplitters(element) {
+                    var visibleSplitters = 0,
+                        i = 0,
+                        len,
+                        splitterHandles;
+
+                    splitterHandles = element.getElementsByClassName('wa-splitter-handle');
+
+                    for(len = splitterHandles.length; i < len; i++) {
+                        if(splitterHandles[i].outerHTML.indexOf('display: none') === -1) {
+                            visibleSplitters++;
+                        }
+                    }
+
+                    return visibleSplitters;
+                }
+
                 describe('and a region is added', function () {
                     var html = '<div>some html</div>',
                         compiledHtml;
@@ -77,7 +94,7 @@ describe('directives', function () {
                     });
                 });
 
-                describe('and two regions are added', function () {
+                describe('and two regions are added to the same row', function () {
                     var html = '<div>some html</div>',
                         html2 = '<div><span>some other html</span></div>',
                         compiledHtml,
@@ -99,24 +116,43 @@ describe('directives', function () {
                         expect(element.html()).toContain(compiledHtml2[0].outerHTML);
                     });
 
-                    it('and it should render a splitter handle between the regions', function() {
-                        var endOfRegion1,
-                            startOfRegion2,
-                            htmlSubstring;
+                    it('and it should render a single splitter handle between the regions', function() {
+                        var visibleSplitters;
 
-                        endOfRegion1 = element.html().indexOf(compiledHtml[0].outerHTML) +
-                            compiledHtml[0].outerHTML.length;
-                        startOfRegion2 = element.html().indexOf(compiledHtml2[0].outerHTML);
+                        visibleSplitters = countDisplayedSplitters(element[0]);
 
-                        htmlSubstring = element.html().substr(endOfRegion1, (startOfRegion2 -
-                            endOfRegion1));
+                        expect(visibleSplitters).toBe(1);
+                    });
+                });
 
-                        expect(htmlSubstring).toContain(
-                            'wa-splitter-handle'/* class applied to splitter handle */
-                        );
-                        expect(htmlSubstring).not.toContain(
-                            'display: none'/* make sure the splitter isn't being hidden */
-                        );
+                describe('and two regions are added to different rows', function () {
+                    var html = '<div>some html</div>',
+                        html2 = '<div><span>some other html</span></div>',
+                        compiledHtml,
+                        compiledHtml2;
+
+                    beforeEach(function() {
+                        $scope.addRegion(html);
+                        compiledHtml = $compile(html)($rootScope);
+                        $scope.addRegion(html2, 1);
+                        compiledHtml2 = $compile(html2)($rootScope);
+                        $scope.$digest();
+                    });
+
+                    it('then it should render the result of compiling both pieces of html',
+                        function () {
+                            expect(compiledHtml.html()).not.toEqual('');
+                            expect(compiledHtml2.html()).not.toEqual('');
+                            expect(element.html()).toContain(compiledHtml[0].outerHTML);
+                            expect(element.html()).toContain(compiledHtml2[0].outerHTML);
+                        });
+
+                    it('and it should render a single splitter handle between the regions', function() {
+                        var visibleSplitters;
+
+                        visibleSplitters = countDisplayedSplitters(element[0]);
+
+                        expect(visibleSplitters).toBe(1);
                     });
                 });
             });
