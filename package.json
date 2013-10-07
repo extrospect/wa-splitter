@@ -6,6 +6,8 @@
     "karma": "*",
     "karma-junit-reporter": "~0.1.0",
     "karma-jasmine": "*",
-    "karma-ng-scenario": "*"
+    "karma-ng-scenario": "*",
+    "selenium-webdriver": "~2.35.2",
+    "protractor": "~0.10.0"
   }
 }
