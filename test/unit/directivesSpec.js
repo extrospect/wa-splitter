@@ -21,6 +21,12 @@ describe('directives', function () {
         describe('given cogito ergo sum', function () {
             describe('when the directive\'s tag is compiled', function () {
                 var directiveTag = '<wa-splitter></wa-splitter>',
+                    html = getHtml('a'),
+                    html2 = getHtml('b'),
+                    html3 = getHtml('c'),
+                    html4 = getHtml('d'),
+                    compiledHtml,
+                    compiledHtml2,
                     $scope,
                     element,
                     $compile,
@@ -62,10 +68,11 @@ describe('directives', function () {
                     return visibleSplitters;
                 }
 
-                describe('and a region is added', function () {
-                    var html = '<div>some html</div>',
-                        compiledHtml;
+                function getHtml(content) {
+                    return '<div>' + content + '</div>';
+                }
 
+                describe('and a region is added', function () {
                     beforeEach(function() {
                         $scope.addRegion(html);
                         compiledHtml = $compile(html)($rootScope);
@@ -95,10 +102,7 @@ describe('directives', function () {
                 });
 
                 describe('and two regions are added to the same row', function () {
-                    var html = '<div>some html</div>',
-                        html2 = '<div><span>some other html</span></div>',
-                        compiledHtml,
-                        compiledHtml2;
+
 
                     beforeEach(function() {
                         $scope.addRegion(html);
@@ -117,20 +121,13 @@ describe('directives', function () {
                     });
 
                     it('and it should render a single splitter handle between the regions', function() {
-                        var visibleSplitters;
-
-                        visibleSplitters = countDisplayedSplitters(element[0]);
+                        var visibleSplitters = countDisplayedSplitters(element[0]);
 
                         expect(visibleSplitters).toBe(1);
                     });
                 });
 
                 describe('and two regions are added to different rows', function () {
-                    var html = '<div>some html</div>',
-                        html2 = '<div><span>some other html</span></div>',
-                        compiledHtml,
-                        compiledHtml2;
-
                     beforeEach(function() {
                         $scope.addRegion(html);
                         compiledHtml = $compile(html)($rootScope);
@@ -148,11 +145,25 @@ describe('directives', function () {
                         });
 
                     it('and it should render a single splitter handle between the regions', function() {
-                        var visibleSplitters;
-
-                        visibleSplitters = countDisplayedSplitters(element[0]);
+                        var visibleSplitters = countDisplayedSplitters(element[0]);
 
                         expect(visibleSplitters).toBe(1);
+                    });
+                });
+
+                describe('and four regions are added across two rows', function () {
+                    beforeEach(function() {
+                        $scope.addRegion(html);
+                        $scope.addRegion(html2);
+                        $scope.addRegion(html3, 1);
+                        $scope.addRegion(html4, 1);
+                        $scope.$digest();
+                    });
+
+                    it('then it should render a three splitter handles between the regions', function() {
+                        var visibleSplitters = countDisplayedSplitters(element[0]);
+
+                        expect(visibleSplitters).toBe(3);
                     });
                 });
             });
