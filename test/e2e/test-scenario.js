@@ -1,37 +1,29 @@
-describe('angularjs homepage', function() {
-    var ptor;
+var util = require('util');
+var webdriver = require('selenium-webdriver');
+var protractor = require('../lib/protractor.js');
+require('../jasminewd');
 
-    it('should greet using binding', function() {
-        ptor = protractor.getInstance();
-        ptor.get('http://www.angularjs.org');
+describe('el goog', function() {
 
-        //ptor.findElement(protractor.By.input("yourName")).sendKeys("Julie");
+    var driver,
+        ptor;
 
-        //var greeting = ptor.findElement(protractor.By.binding("{{yourName}}!"));
+    beforeEach(function() {
+        driver = new webdriver.Builder().
+            usingServer('http://localhost:7777/wd/hub').
+            withCapabilities(webdriver.Capabilities.chrome()).build();
 
-        //expect(greeting.getText()).toEqual('Hello Julie!');
+        driver.manage().timeouts().setScriptTimeout(10000);
+        ptor = protractor.wrapDriver(driver);
     });
 
-    it('should list todos', function() {
-        ptor.get('http://www.angularjs.org');
 
-        //var todo = ptor.findElement(
-        //    protractor.By.repeater('todo in todos').row(2));
+    it('should google stuff', function() {
+        ptor.get('http://www.google.com');
 
-        //expect(todo.getText()).toEqual('build an angular app');
-    });
+        var qEl = ptor.findElement(protractor.By.name("q"));
+        qEl.sendKeys("HAL9000");
 
-    // Uncomment to see failures.
-
-    // it('should greet using binding - this one fails', function() {
-    //   ptor.get('http://www.angularjs.org');
-
-    //   ptor.findElement(protractor.By.input("yourName")).sendKeys("Julie");
-
-    //   ptor.findElement(protractor.By.binding("Hello {{yourName}}!")).
-    //       getText().then(function(text) {
-    //         expect(text).toEqual('Hello Jack');
-    //       });
-    // });
-
+        expect(qEl.getText()).toEqual('Hello Julie!');
+    }, 10000);
 });
