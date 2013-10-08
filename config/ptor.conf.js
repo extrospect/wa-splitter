@@ -11,15 +11,15 @@ exports.config = {
   // 3. sauceUser/sauceKey - to use remote Selenium servers via SauceLabs.
 
   // The location of the selenium standalone server .jar file.
-  seleniumServerJar: 'selenium/selenium-server-standalone-2.35.0.jar',
+  seleniumServerJar: './selenium/selenium-server-standalone-2.35.0.jar',
   // The port to start the selenium server on, or null if the server should
   // find its own unused port.
-  seleniumPort: 7777,
+  seleniumPort: 4444,
   // Chromedriver location is used to help the selenium standalone server
   // find chromedriver. This will be passed to the selenium jar as
   // the system property webdriver.chrome.driver. If null, selenium will
   // attempt to find chromedriver using PATH.
-  chromeDriver: 'selenium/chromedriver',
+  chromeDriver: './selenium/chromedriver',
   // Additional command line options to pass to selenium. For example,
   // if you need to change the browser timeout, use
   // seleniumArgs: ['-browserTimeout=60'],
@@ -39,7 +39,7 @@ exports.config = {
   //
   // Spec patterns are relative to the location of this config.
   specs: [
-    '../test/e2e/*scenario.js'
+    '../test/e2e/**scenario.js'
   ],
 
   // ----- Capabilities to be passed to the webdriver instance ----
@@ -64,12 +64,12 @@ exports.config = {
   // before the specs are executed
   // You can specify a file containing code to run by setting onPrepare to
   // the filename string.
-  //onPrepare: function() {
+  onPrepare: function() {
     // At this point, global 'protractor' object will be set up, and jasmine
     // will be available. For example, you can add a Jasmine reporter with:
     //     jasmine.getEnv().addReporter(new jasmine.JUnitXmlReporter(
     //         'outputdir/', true, true));
-  //},
+  },
   
   // ----- Options to be passed to minijasminenode -----
   jasmineNodeOpts: {
